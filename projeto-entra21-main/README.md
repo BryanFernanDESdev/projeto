@@ -60,3 +60,23 @@ Este projeto foi desenvolvido como parte do programa Entra21. O objetivo é apri
 ## 📜 Licença
 
 Este projeto é de código aberto e está licenciado sob a [MIT License](LICENSE).
+
+## Configuração do Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com base no exemplo abaixo:
+
+```bash
+# Configurações do banco de dados
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=senha
+DB_NAME=nome_do_banco
+
+# Configurações da API do Spotify
+SPOTIFY_CLIENT_ID=seu_client_id_aqui
+SPOTIFY_CLIENT_SECRET=seu_client_secret_aqui
+SPOTIFY_REDIRECT_URI=http://localhost:3000/callback
+```
+
+Certifique-se de substituir os valores pelos dados reais do seu ambiente.
