@@ -1,0 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
+
+h1,h2,h3,h4,h5,h6,p,body,a{
+font-family: roboto-flex,sans-serif;
+font-style: normal;
+font-weight: 400;
+}

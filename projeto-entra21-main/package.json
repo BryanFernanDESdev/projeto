@@ -1,0 +1,36 @@
+{
+  "name": "projeto-entra21",
+  "version": "1.0.0",
+  "description": "Este projeto foi desenvolvido como parte do programa Entra21. O objetivo é aprimorar nossos conhecimentos em desenvolvimento web, aplicando HTML, CSS e JavaScript para criar uma aplicação funcional e interativa.",
+  "homepage": "https://github.com/Nicolas121221/Projeto-Entra21#readme",
+  "bugs": {
+    "url": "https://github.com/Nicolas121221/Projeto-Entra21/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nicolas121221/Projeto-Entra21.git"
+  },
+  "license": "ISC",
+  "author": "Nicolas Guedes",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "init": "^0.1.2",
+    "mysql2": "^3.14.0",
+    "querystring": "^0.2.1",
+    "spotify-web-api-node": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1"
+  },
+  "keywords": []
+}
