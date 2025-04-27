@@ -4,13 +4,11 @@ const connection = require("../config/db");
 const { getSpotifyAccessToken, getSpotifyUserData } = require("../services/spotifyService");
 const axios = require("axios");
 
-// Rota de login
 router.get("/login", (req, res) => {
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=playlist-read-private playlist-read-collaborative`;
   res.redirect(authUrl);
 });
 
-// Callback do Spotify
 router.get("/callback", async (req, res) => {
   const { code } = req.query;
 
@@ -31,14 +29,13 @@ router.get("/callback", async (req, res) => {
 
     const tokenExpiryTime = new Date(Date.now() + expires_in * 1000);
 
-    const query = `
-      INSERT INTO UsuarioSpotify (spotify_user_id, access_token, refresh_token, token_expires_at)
-      VALUES (?, ?, ?, ?)
-      ON DUPLICATE KEY UPDATE
-        access_token = VALUES(access_token),
-        refresh_token = VALUES(refresh_token),
-        token_expires_at = VALUES(token_expires_at)
-    `;
+    const query = `INSERT INTO spotify_user (usuario_id, spotify_user, access_token, refresh_token, token_expires_at)
+    VALUES (?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+      spotify_user = VALUES(spotify_user),
+      access_token = VALUES(access_token),
+      refresh_token = VALUES(refresh_token),
+      token_expires_at = VALUES(token_expires_at)`;
 
     connection.query(query, [spotifyUserId, access_token, refresh_token, tokenExpiryTime], (err, result) => {
       if (err) {
@@ -46,7 +43,6 @@ router.get("/callback", async (req, res) => {
         return res.status(500).send("Erro ao armazenar tokens");
       }
 
-      // Redireciona para as playlists do usuário
       res.redirect(`/spotify/playlists/${spotifyUserId}`);
     });
   } catch (error) {
@@ -55,7 +51,6 @@ router.get("/callback", async (req, res) => {
   }
 });
 
-// Rota para exibir playlists
 router.get("/playlists/:spotify_user_id", async (req, res) => {
   const { spotify_user_id } = req.params;
 

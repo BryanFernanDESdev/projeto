@@ -7,7 +7,6 @@ const port = process.env.PORT || 3000;
 
 const spotifyRoutes = require("./routes/spotifyRoutes");
 
-// Corrigido: adiciona o prefixo /spotify
 app.use("/spotify", spotifyRoutes);
 
 app.get("/", (req, res) => {
