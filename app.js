@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 const spotifyRoutes = require("./routes/spotifyRoutes");
 
-app.use("/spotify", spotifyRoutes);
+app.use("/", spotifyRoutes);
 
 app.get("/", (req, res) => {
   res.send("Servidor rodando!");
