@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from 'axios';
 
 const getSpotifyAccessToken = async (code, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI) => {
   try {
@@ -39,7 +39,4 @@ const getSpotifyUserData = async (accessToken) => {
   }
 };
 
-module.exports = {
-  getSpotifyAccessToken,
-  getSpotifyUserData
-};
+export { getSpotifyAccessToken, getSpotifyUserData }; // Exportação nomeada

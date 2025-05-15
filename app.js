@@ -1,17 +1,13 @@
-const express = require("express");
-const dotenv = require("dotenv");
+import express from 'express';
+import dotenv from 'dotenv';
+import spotifyRoutes from './routes/spotifyRoutes.js'; // Importação padrão
+
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const spotifyRoutes = require("./routes/spotifyRoutes");
-
-app.use("/", spotifyRoutes);
-
-app.get("/", (req, res) => {
-  res.send("Servidor rodando!");
-});
+app.use("/spotify", spotifyRoutes); // Usando as rotas para o Spotify
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
