@@ -1,43 +1,36 @@
-'use strict';
+// models/index.js
+const { Sequelize, DataTypes } = require('sequelize');
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
-
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+// Conectar ao banco de dados (ajuste conforme seu banco de dados)
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'mysql',  // Dialeto para MySQL (ou altere conforme o seu banco)
+  logging: false,    // Desabilita os logs SQL no console
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+// Testa a conexão com o banco de dados
+sequelize.authenticate()
+  .then(() => {
+    console.log('Conexão com o banco de dados bem-sucedida!');
+  })
+  .catch((err) => {
+    console.error('Erro ao conectar ao banco de dados:', err);
+  });
 
-module.exports = db;
+// Importar os modelos
+const Usuario = require('./Usuarios')(sequelize, DataTypes);
+const SpotifyUser = require('./SpotifyUser')(sequelize, DataTypes);
+
+// Definir as associações (caso existam entre os modelos)
+// Exemplo:
+// Usuario.hasMany(SpotifyUser);
+// SpotifyUser.belongsTo(Usuario);
+
+// Sincronizar as tabelas com o banco de dados (apenas no desenvolvimento)
+sequelize.sync({ alter: true }).then(() => {
+  console.log('Tabelas sincronizadas com sucesso!');
+}).catch((err) => {
+  console.error('Erro ao sincronizar as tabelas:', err);
+});
+
+// Exportar os modelos e a instância do sequelize
+module.exports = { sequelize, Usuario, SpotifyUser, Sequelize, DataTypes };

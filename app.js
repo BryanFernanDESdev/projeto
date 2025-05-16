@@ -1,14 +1,24 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import spotifyRoutes from './routes/spotifyRoutes.js'; // Importação padrão
+// app.js
+require('dotenv').config(); // Carrega o arquivo .env no início
 
-dotenv.config();
+const express = require('express');
+const { sequelize } = require('./models'); // Importa o sequelize
+const spotifyRoutes = require('./routes/spotifyRoutes');  // Importa as rotas do Spotify
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use("/spotify", spotifyRoutes); // Usando as rotas para o Spotify
+app.use('/spotify', spotifyRoutes);  // Usa as rotas do Spotify
 
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+// Sincroniza os modelos com o banco de dados
+sequelize.sync({ force: false })  // Define 'force: true' para recriar as tabelas
+  .then(() => {
+    console.log('Modelos sincronizados com o banco de dados!');
+  })
+  .catch((err) => {
+    console.error('Erro ao sincronizar os modelos:', err);
+  });
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

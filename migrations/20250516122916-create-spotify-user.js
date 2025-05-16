@@ -1,9 +1,8 @@
-// 20250515135613-create-spotify-user.js
+// 20250516122916-create-spotify-user.js
 
-// Importando o Sequelize dinamicamente (importação assíncrona)
-export default {
+module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('SpotifyUsers', {
+    await queryInterface.createTable('spotify_user', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -13,10 +12,16 @@ export default {
       usuario_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        unique: true,
+        references: {
+          model: 'usuarios',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       spotify_user: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       access_token: {
         type: Sequelize.STRING,
@@ -30,10 +35,15 @@ export default {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      criado_em: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
     });
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('SpotifyUsers');
+    await queryInterface.dropTable('spotify_user');
   }
 };

@@ -1,27 +1,30 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+// models/SpotifyUser.js
 module.exports = (sequelize, DataTypes) => {
-  class SpotifyUser extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  SpotifyUser.init({
-    usuario_id: DataTypes.INTEGER,
-    spotify_user: DataTypes.STRING,
-    access_token: DataTypes.STRING,
-    refresh_token: DataTypes.STRING,
-    token_expires_at: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'SpotifyUser',
+  const SpotifyUser = sequelize.define('SpotifyUser', {
+    usuario_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Usuarios',  // Refere-se à tabela "Usuarios"
+        key: 'id',
+      },
+    },
+    spotify_user: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    access_token: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    refresh_token: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    token_expires_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
   });
+
   return SpotifyUser;
 };
